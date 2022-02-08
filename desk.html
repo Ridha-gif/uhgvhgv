@@ -1,0 +1,108 @@
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+	<title>Object Detection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+
+  <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+  
+<style>
+    body{
+        background-image: url("nice-watercolor-background_24837-261.jpeg");
+        background-size:cover;
+    background-position: center;
+    background-size: cover;
+}
+.heading{
+    width: 100%;
+    font-size: larger;
+    margin-top: 0px;
+    font-size:30px;
+    color:white;
+    font-family: 'Lobster Two', cursive;
+}
+.bb{
+    font-size:23px;
+    font-family:acme,cusive;
+    font-weight:bolder
+}
+.bbb{
+    font-size:23px;
+    font-family:acme,cusive;
+    font-weight:bolder;
+    margin-left:50px
+}
+.heading:hover{
+    font-size: large;
+}
+a{
+    color: white;
+    font-size:20px;
+}
+.link{
+    background-color: lightcoral;
+    color:white;
+    border-radius: 10px;
+    width: 80px;
+    float: right;
+    font-family:acme,cursive;
+    
+}
+canvas{
+    margin-top:100px;
+    border-radius: 10px;
+    box-shadow: 7px 7px 7px grey;
+}
+</style>
+</head>
+<body>
+    <center>
+    <h1 class="btn btn-warning heading">Desk</h1>
+    <br><br>
+    <li class="link"><a href="index.html">Back</a></li>
+    <br>
+    <h2 class="btn btn-danger bbb" id="status">Status-</h2>
+    <br>
+    <h3 class="btn btn-success bb">Objects in the Image  - </h3>
+</center>
+<script>
+    Status = "";
+desk_room= "";
+
+function preload(){
+desk_room = loadImage("duffy-l-shape-desk-1626380894.jpeg");
+}
+
+function setup(){
+    canvas = createCanvas(640,350);
+    canvas.position(315,200);
+    canvas.center()
+    object_Detector = ml5.objectDetector('cocossd',modelLoaded);
+    document.getElementById("status").innerHTML = "Status: Detecting Objects";
+}
+
+function modelLoaded(){
+    console.log("Model Loaded!");
+    Status = true;
+    object_Detector.detect(desk_room,gotResults);
+}
+
+function gotResults(error,results){
+    if(error){
+        console.error(error);
+    }
+    console.log(results);
+}
+
+function draw(){
+    image(desk_room,0,0,640,350);
+}
+</script>
+</body>
+</html>
